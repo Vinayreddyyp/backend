@@ -7,7 +7,7 @@ console.log("first");
 
 router.get("/:pid", placesControllers.getPlaceById);
 console.log("second");
-router.get("/user/:uid", placesControllers.getPlaceByUserId);
+router.get("/user/:uid", placesControllers.getPlacesByUserId);
 router.post("/", placesControllers.createPlace);
 router.patch("/:pid", placesControllers.updatePlace);
 router.delete("/:pid", placesControllers.deletePlace);
