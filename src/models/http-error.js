@@ -1,9 +1,6 @@
 class HttpError extends Error {
 	constructor(message, error) {
-		console.log(
-			"🚀 ~ file: http-error.js ~ line 3 ~ HttpError ~ constructor ~ error",
-			error
-		);
+		console.log("message", message);
 		super(message);
 		this.error = error;
 	}
