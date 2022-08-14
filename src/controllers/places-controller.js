@@ -136,8 +136,14 @@ const updatePlace = async (req, res, next) => {
 };
 
 const deletePlace = async (req, res) => {
-	const placeId = req.params.id;
+	const placeId = req.params.pid;
+	console.log(
+		"🚀 ~ file: places-controller.js ~ line 140 ~ deletePlace ~ placeId",
+		placeId
+	);
+
 	let place;
+
 	try {
 		place = await Place.findById(placeId);
 	} catch (err) {
@@ -153,6 +159,7 @@ const deletePlace = async (req, res) => {
 	}
 	res.status(200).json({ message: "Deleted place" });
 };
+
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
