@@ -11,8 +11,16 @@ const DUMMY_USERS = [
 	},
 ];
 
-const getUsers = (req, res, next) => {
-	res.json({ users: DUMMY_USERS });
+const getUsers = async (req, res, next) => {
+	let users;
+	try {
+		users = await User.find({}, "-password");
+	} catch (err) {
+		const error = new HttpError("Fetching users failed please try again", 500);
+		return next(error);
+	}
+
+	res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
 const signup = async (req, res, next) => {
@@ -22,7 +30,7 @@ const signup = async (req, res, next) => {
 			new HttpError("Invalid inputs passes,please check your data ", 422)
 		);
 	}
-	const { email, name, password, places } = req.body;
+	const { email, name, password } = req.body;
 	console.log("email and name and password", email, name, password, places);
 
 	let existingUser;
@@ -47,7 +55,7 @@ const signup = async (req, res, next) => {
 		email,
 		image: "https://i.imgur.com/9PZ1reC.jpeg",
 		password,
-		places,
+		places: [],
 	});
 
 	try {
