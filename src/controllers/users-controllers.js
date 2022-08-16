@@ -31,7 +31,6 @@ const signup = async (req, res, next) => {
 		);
 	}
 	const { email, name, password } = req.body;
-	console.log("email and name and password", email, name, password, places);
 
 	let existingUser;
 
