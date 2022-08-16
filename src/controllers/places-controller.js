@@ -2,6 +2,8 @@ const HttpError = require("../models/http-error.js");
 const { validationResult } = require("express-validator");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../models/place");
+const User = require("../models/user");
+const mongoose = require("mongoose");
 let DUMMY_PLACES = [
 	{
 		id: "p1",
@@ -47,7 +49,6 @@ const getPlacesByUserId = async (req, res, next) => {
 
 	try {
 		places = await Place.find({ creator: userId });
-		console.log("places ", places);
 	} catch (errors) {
 		const error = new HttpError(
 			"Fetching places failed, please try again later",
@@ -92,8 +93,26 @@ const createPlace = async (req, res, next) => {
 		creator,
 	});
 
+	let user;
 	try {
-		await createdPlace.save();
+		user = await User.findById(creator);
+	} catch (err) {
+		const error = new HttpError("something went wrong", 500);
+		return next(error);
+	}
+
+	if (!user) {
+		const error = new HttpError("we cant find the user in the data", 404);
+		return next(error);
+	}
+
+	try {
+		const sess = await mongoose.startSession();
+		sess.startTransaction();
+		await createdPlace.save({ session: sess });
+		user.places.push(createdPlace);
+		await user.save({ session: sess });
+		await sess.commitTransaction();
 	} catch (e) {
 		const error = new HttpError(
 			"Creating place failed, please try again.",
