@@ -158,6 +158,10 @@ const updatePlace = async (req, res, next) => {
 
 const deletePlace = async (req, res) => {
 	const placeId = req.params.pid;
+	console.log(
+		"🚀 ~ file: places-controller.js ~ line 161 ~ deletePlace ~ placeId",
+		placeId
+	);
 
 	let place;
 
