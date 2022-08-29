@@ -1,15 +1,7 @@
 const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
-const { v4: uuidv4 } = require("uuid");
+
 const User = require("../models/user");
-const DUMMY_USERS = [
-	{
-		id: "u1",
-		name: "Vinay",
-		email: "vinay@gmail.com",
-		password: "vinay@1234",
-	},
-];
 
 const getUsers = async (req, res, next) => {
 	let users;
@@ -24,6 +16,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
+	console.log("signUP function has been called", req.body);
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(
