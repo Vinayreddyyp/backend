@@ -69,6 +69,7 @@ const getPlacesByUserId = async (req, res, next) => {
 };
 
 const createPlace = async (req, res, next) => {
+	console.log("req in the created place", req);
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(
