@@ -16,7 +16,6 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-	console.log("signUP function has been called", req.body);
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(
@@ -86,7 +85,10 @@ const login = async (req, res, next) => {
 		);
 		return next(error);
 	}
-	res.json({ message: "Logged in" });
+	res.json({
+		message: "Logged in",
+		user: existingUser.toObject({ getters: true }),
+	});
 };
 
 exports.getUsers = getUsers;
