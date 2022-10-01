@@ -34,3 +34,14 @@ app.use((error, req, res, next) => {
 	res.status(error.code || 500);
 	res.json({ message: error.message || "An Unknown error occurred" });
 });
+
+mongoose
+	.connect(
+		"mongodb+srv://vinny1:mongodb2022@cluster0.406em.mongodb.net/mern?retryWrites=true&w=majority"
+	)
+	.then(() => {
+		app.listen(5000);
+	})
+	.catch((error) => {
+		console.log(error);
+	});
